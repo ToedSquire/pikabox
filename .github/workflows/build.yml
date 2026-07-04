@@ -8,18 +8,11 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Install KIWI Engine and Complete Plugins
+      - name: Install KIWI Engine and Bootstrapping Tools
         run: |
           sudo apt-get update
-          sudo apt-get install -y qemu-utils
+          sudo apt-get install -y qemu-utils debootstrap ubuntu-keyring
           sudo pip3 install --break-system-packages kiwi kiwi_boxed_plugin
-
-      - name: Force Global APT Trust Override
-        run: |
-          # Force the host machine and sub-processes to completely allow unsigned sources
-          sudo mkdir -p /etc/apt/apt.conf.d/
-          echo 'APT::Get::AllowUnauthenticated "true";' | sudo tee /etc/apt/apt.conf.d/99allow-unauthenticated
-          echo 'Acquire::AllowInsecureRepositories "true";' | sudo tee -a /etc/apt/apt.conf.d/99allow-unauthenticated
 
       - name: Build Live Image
         run: |
