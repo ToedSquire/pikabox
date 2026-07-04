@@ -12,6 +12,11 @@
         <packagemanager>apt</packagemanager>
     </preferences>
 
+    <packages type="bootstrap">
+        <package name="apt"/>
+        <package name="ubuntu-minimal"/>
+    </packages>
+
     <packages type="image">
         <package name="budgie-desktop"/>
         <package name="lightdm"/>
