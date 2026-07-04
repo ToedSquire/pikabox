@@ -27,13 +27,9 @@
     </packages>
 
     <repository type="apt-deb" alias="ubuntu-base">
-        <source path="http://archive.ubuntu.com/ubuntu/"/>
-        <productName>plucky</productName>
-        <components>main universe multiverse restricted</components>
+        <source path="http://archive.ubuntu.com/ubuntu/" distribution="plucky" components="main universe multiverse restricted"/>
     </repository>
     <repository type="apt-deb" alias="ubuntu-updates">
-        <source path="http://archive.ubuntu.com/ubuntu/"/>
-        <productName>plucky-updates</productName>
-        <components>main universe multiverse restricted</components>
+        <source path="http://archive.ubuntu.com/ubuntu/" distribution="plucky-updates" components="main universe multiverse restricted"/>
     </repository>
 </image>
