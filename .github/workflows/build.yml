@@ -14,22 +14,32 @@ jobs:
           sudo apt-get install -y qemu-utils debootstrap xorriso squashfs-tools
           sudo pip3 install --break-system-packages kiwi kiwi_boxed_plugin
 
-      - name: Pre-Bootstrap and Force Trusted Sources
+      - name: Create Global APT Interceptor Wrapper
         run: |
-          # 1. Clear out any failed runs and build the base
+          # Create a custom apt-get binary script that forces signature bypass
+          sudo tee /usr/local/bin/apt-get << 'EOF'
+          #!/bin/bash
+          exec /usr/bin/apt-get \
+            -o Acquire::AllowInsecureRepositories=true \
+            -o APT::Get::AllowUnauthenticated=true \
+            -o Acquire::AllowPublicKeyFileInsecure=true \
+            "$@"
+          EOF
+          sudo chmod +x /usr/local/bin/apt-get
+
+          # Link it into the system path so KIWI calls our wrapper first
+          sudo ln -sf /usr/local/bin/apt-get /usr/sbin/apt-get
+
+      - name: Pre-Bootstrap Image Root Natively
+        run: |
           sudo rm -rf ./build_output
           sudo mkdir -p ./build_output/build/image-root
           sudo debootstrap --arch=amd64 --no-check-gpg plucky ./build_output/build/image-root http://archive.ubuntu.com/ubuntu/
-          
-          # 2. Overwrite the sandbox sources list to force trust the repositories
-          sudo mkdir -p ./build_output/build/image-root/etc/apt/
-          sudo tee ./build_output/build/image-root/etc/apt/sources.list << 'EOF'
-          deb [trusted=yes] http://archive.ubuntu.com/ubuntu/ plucky main universe multiverse restricted
-          deb [trusted=yes] http://archive.ubuntu.com/ubuntu/ plucky-updates main universe multiverse restricted
-          EOF
-          
-          # 3. Pre-update the cache so KIWI inherits a working package state
-          sudo chroot ./build_output/build/image-root apt-get update || true
+
+          # Copy our special interceptor inside the chroot as well so KIWI cannot escape it!
+          sudo cp /usr/local/bin/apt-get ./build_output/build/image-root/usr/local/bin/apt-get
+          sudo ln -sf /usr/local/bin/apt-get ./build_output/build/image-root/usr/bin/apt-get
+          sudo ln -sf /usr/local/bin/apt-get ./build_output/build/image-root/usr/sbin/apt-get
 
       - name: Build Live Image
         run: |
