@@ -17,9 +17,10 @@ jobs:
       - name: Build Live Image
         run: |
           sudo mkdir -p ./build_output
-          sudo kiwi-ng --no-validation system build \
+          sudo kiwi-ng system build \
             --description ./ \
-            --target-dir ./build_output
+            --target-dir ./build_output \
+            --ignored-validation-schema-extended
 
       - name: Upload Finished ISO
         uses: actions/upload-artifact@v4
