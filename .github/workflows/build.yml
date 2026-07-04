@@ -1,4 +1,4 @@
-name: Build Pikabox Live ISO
+name: Build Pikabox26 Live ISO
 on: [push, workflow_dispatch]
 
 jobs:
