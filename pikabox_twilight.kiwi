@@ -15,6 +15,7 @@
     <packages type="bootstrap">
         <package name="apt"/>
         <package name="ubuntu-minimal"/>
+        <package name="ubuntu-keyring"/> 
     </packages>
 
     <packages type="image">
@@ -34,8 +35,10 @@
 
     <repository type="apt-deb" alias="ubuntu-base" distribution="plucky" components="main universe multiverse restricted">
         <source path="http://archive.ubuntu.com/ubuntu/"/>
+        <signing key="/usr/share/keyrings/ubuntu-archive-keyring.gpg"/>
     </repository>
     <repository type="apt-deb" alias="ubuntu-updates" distribution="plucky-updates" components="main universe multiverse restricted">
         <source path="http://archive.ubuntu.com/ubuntu/"/>
+        <signing key="/usr/share/keyrings/ubuntu-archive-keyring.gpg"/>
     </repository>
 </image>
