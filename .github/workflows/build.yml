@@ -14,17 +14,23 @@ jobs:
           sudo apt-get install -y qemu-utils debootstrap ubuntu-keyring xorriso squashfs-tools
           sudo pip3 install --break-system-packages kiwi kiwi_boxed_plugin
 
-      - name: Pre-Bootstrap Image Root Natively
+      - name: Pre-Bootstrap and inject Keyrings Natively
         run: |
-          # Manually create the precise root path KIWI looks for
+          # Manually create the target root
           sudo mkdir -p ./build_output/build/image-root
           
-          # Debootstrap handles the keys, base-passwd extraction, and apt setup flawlessly
+          # 1. Debootstrap the base
           sudo debootstrap --arch=amd64 plucky ./build_output/build/image-root http://archive.ubuntu.com/ubuntu/
+          
+          # 2. Inject the master archive keys directly inside the chroot's trusted folder
+          sudo mkdir -p ./build_output/build/image-root/etc/apt/trusted.gpg.d/
+          sudo cp /usr/share/keyrings/ubuntu-archive-keyring.gpg ./build_output/build/image-root/etc/apt/trusted.gpg.d/
+          
+          # 3. Prime the chroot apt cache so KIWI doesn't panic
+          sudo chroot ./build_output/build/image-root apt-get update
 
       - name: Build Live Image
         run: |
-          # Tell KIWI to pick up where debootstrap left off
           sudo DEBIAN_FRONTEND=noninteractive kiwi-ng system build \
             --description ./ \
             --target-dir ./build_output \
