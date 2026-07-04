@@ -33,12 +33,10 @@
         <package name="dracut-kiwi-live"/>
     </packages>
 
-    <repository type="apt-deb" alias="ubuntu-base" distribution="plucky" components="main universe multiverse restricted">
+    <repository type="apt-deb" alias="ubuntu-base" distribution="plucky" components="main universe multiverse restricted" repo_gpgcheck="false" package_gpgcheck="false">
         <source path="http://archive.ubuntu.com/ubuntu/"/>
-        <signing key="/usr/share/keyrings/ubuntu-archive-keyring.gpg"/>
     </repository>
-    <repository type="apt-deb" alias="ubuntu-updates" distribution="plucky-updates" components="main universe multiverse restricted">
+    <repository type="apt-deb" alias="ubuntu-updates" distribution="plucky-updates" components="main universe multiverse restricted" repo_gpgcheck="false" package_gpgcheck="false">
         <source path="http://archive.ubuntu.com/ubuntu/"/>
-        <signing key="/usr/share/keyrings/ubuntu-archive-keyring.gpg"/>
     </repository>
 </image>
