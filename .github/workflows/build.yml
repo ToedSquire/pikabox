@@ -8,15 +8,24 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Install KIWI Engine and Bootstrapping Tools
+      - name: Install KIWI Engine and Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y qemu-utils debootstrap ubuntu-keyring
+          sudo apt-get install -y qemu-utils debootstrap ubuntu-keyring xorriso squashfs-tools
           sudo pip3 install --break-system-packages kiwi kiwi_boxed_plugin
+
+      - name: Pre-Bootstrap Image Root Natively
+        run: |
+          # Manually create the precise root path KIWI looks for
+          sudo mkdir -p ./build_output/build/image-root
+          
+          # Debootstrap handles the keys, base-passwd extraction, and apt setup flawlessly
+          sudo debootstrap --arch=amd64 plucky ./build_output/build/image-root http://archive.ubuntu.com/ubuntu/
 
       - name: Build Live Image
         run: |
-          sudo mkdir -p ./build_output
+          # Tell KIWI to pick up where debootstrap left off
           sudo DEBIAN_FRONTEND=noninteractive kiwi-ng system build \
             --description ./ \
-            --target-dir ./build_output
+            --target-dir ./build_output \
+            --allow-existing-root
