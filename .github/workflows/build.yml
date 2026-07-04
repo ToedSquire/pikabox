@@ -1,11 +1,29 @@
-- name: Set up Repositories and Install KIWI
+name: Build Pikabox Live ISO
+on: [push, workflow_dispatch]
+
+jobs:
+  build-iso:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Repositories and Install KIWI
         run: |
-          # 1. Add the official openSUSE KIWI repository for Ubuntu 24.04 (Noble)
           echo 'deb http://download.opensuse.org/repositories/Virtualization:/Appliances:/Builder/xUbuntu_24.04/ /' | sudo tee /etc/apt/sources.list.d/kiwi.list
-          
-          # 2. Add the repository signing key so apt trusts it
           curl -fsSL https://download.opensuse.org/repositories/Virtualization:/Appliances:/Builder/xUbuntu_24.04/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/kiwi.gpg > /dev/null
-          
-          # 3. Update the package lists and install the engine safely
           sudo apt-get update
           sudo apt-get install -y python3-kiwi kiwi-tools qemu-utils
+
+      - name: Build Live Image
+        run: |
+          sudo mkdir -p ./build_output
+          sudo kiwi-ng --profile=default image build \
+            --description ./ \
+            --target-dir ./build_output
+
+      - name: Upload Finished ISO
+        uses: actions/upload-artifact@v4
+        with:
+          name: pikabox-twilight-iso
+          path: ./build_output/*.iso
