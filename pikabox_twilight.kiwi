@@ -26,10 +26,12 @@
         <package name="sudo"/>
     </packages>
 
-    <repository type="apt-deb" alias="ubuntu-base" distribution="plucky" components="main universe multiverse restricted">
-        <source path="http://archive.ubuntu.com/ubuntu/"/>
+    <repository type="apt-deb" alias="ubuntu-base" dynamic_signing="true">
+        <source path="http://archive.ubuntu.com/ubuntu/ plucky"/>
+        <components>main universe multiverse restricted</components>
     </repository>
-    <repository type="apt-deb" alias="ubuntu-updates" distribution="plucky-updates" components="main universe multiverse restricted">
-        <source path="http://archive.ubuntu.com/ubuntu/"/>
+    <repository type="apt-deb" alias="ubuntu-updates" dynamic_signing="true">
+        <source path="http://archive.ubuntu.com/ubuntu/ plucky-updates"/>
+        <components>main universe multiverse restricted</components>
     </repository>
 </image>
