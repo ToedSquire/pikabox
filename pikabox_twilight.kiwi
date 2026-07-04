@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<repository type="apt-deb" alias="ubuntu-base">
+      <source path="http://archive.ubuntu.com/ubuntu/"/>
+      <productName>resolute</productName>
+      <components>main universe multiverse restricted</components>
+  </repository>
+  <repository type="apt-deb" alias="ubuntu-updates">
+      <source path="http://archive.ubuntu.com/ubuntu/"/>
+      <productName>resolute-updates</productName>
+      <components>main universe multiverse restricted</components>
+</repository>
+<image schemaversion="7.4" name="pikabox_twilight">
+    <description type="system">
+        <author>Pikabox</author>
+        <contact>help.pikabox@outlook.com</contact>
+        <specification>Ubuntu, Mint, and Budgie</specification>
+    </description>
+    
+    <preferences>
+        <type image="iso" bootprofile="default" flags="overlay"/>
+        <version>1.1.0</version>
+        <packagemanager>apt</packagemanager>
+    </preferences>
+
+    <packages type="image">
+        <package name="budgie-desktop"/>
+        <package name="lightdm"/>
+        <package name="lightdm-gtk-greeter"/>
+
+        <package name="zsh"/>
+
+        <package name="snapd"/>
+        <package name="flatpak"/>
+        <package name="gnome-software-plugin-flatpak"/>
+
+        <package name="linux-image-generic"/>
+        <package name="live-boot"/>
+        <package name="systemd-sysv"/>
+        <package name="sudo"/>
+    </packages>
+</image>
