@@ -35,3 +35,9 @@ jobs:
             --description ./ \
             --target-dir ./build_output \
             --allow-existing-root
+
+      - name: Upload Completed ISO Artifact
+        uses: actions/artifacts@v4
+        with:
+          name: Pikabox-Live-ISO
+          path: ./build_output/*.iso
