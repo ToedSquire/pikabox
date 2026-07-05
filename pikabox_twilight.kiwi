@@ -22,7 +22,7 @@
         <package name="flatpak"/>
         <package name="gnome-software-plugin-flatpak"/>
         <package name="linux-image-generic"/>
-        <package name="live-boot"/>
+        <package name="dracut-live"/>
         <package name="systemd-sysv"/>
         <package name="sudo"/>
     </packages>
