@@ -16,12 +16,12 @@ jobs:
 
       - name: Pre-Bootstrap and Configure Insecure APT Natively
         run: |
-          # 1. Clean out the old broken loop and build the base root
+          # 1. Clean out the system directory and pull main + universe
           sudo rm -rf ./build_output
           sudo mkdir -p ./build_output/build/image-root
-          sudo debootstrap --arch=amd64 --no-check-gpg plucky ./build_output/build/image-root http://archive.ubuntu.com/ubuntu/
+          sudo debootstrap --arch=amd64 --no-check-gpg --components=main,universe plucky ./build_output/build/image-root http://archive.ubuntu.com/ubuntu/
 
-          # 2. Inject a global configuration file directly into the sandbox's APT directory
+          # 2. Inject the global configuration file directly into the sandbox's APT directory
           sudo mkdir -p ./build_output/build/image-root/etc/apt/apt.conf.d/
           sudo tee ./build_output/build/image-root/etc/apt/apt.conf.d/99insecure << 'EOF'
           Acquire::AllowInsecureRepositories "true";
