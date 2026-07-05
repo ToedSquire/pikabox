@@ -14,7 +14,6 @@
 
     <packages type="image">
         <package name="kiwi-dracut-live"/>
-        <package name="dracut-kiwi-live"/>
         <package name="budgie-desktop"/>
         <package name="lightdm"/>
         <package name="lightdm-gtk-greeter"/>
