@@ -24,7 +24,6 @@
         <package name="live-boot"/>
         <package name="systemd-sysv"/>
         <package name="sudo"/>
-        <package name="dracut-kiwi-live"/>
     </packages>
 
     <repository type="apt-deb" alias="ubuntu-base" distribution="plucky" components="main universe multiverse restricted">
