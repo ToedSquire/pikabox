@@ -12,6 +12,11 @@
         <packagemanager>apt</packagemanager>
     </preferences>
 
+    <users>
+        <user name="root" password="" pwdformat="plain" groups="root"/>
+        <user name="pikaos" password="" pwdformat="plain" groups="users,wheel,sudo,audio,video"/>
+    </users>
+
     <packages type="image">
         <package name="kiwi-dracut-live"/>
         <package name="budgie-desktop"/>
